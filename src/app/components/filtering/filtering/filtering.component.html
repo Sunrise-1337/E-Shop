@@ -1,0 +1,26 @@
+<mat-expansion-panel *ngIf="categories$ | async as categories">
+    <mat-expansion-panel-header>
+        <mat-panel-title>Categories</mat-panel-title>
+    </mat-expansion-panel-header>
+    <mat-selection-list [(ngModel)]="currentCategory" [multiple]="false">
+        <mat-list-option value="" selected>
+            <button>All</button>
+        </mat-list-option>
+        <mat-list-option *ngFor="let category of categories" [value]="category">
+            <button class="capitalize">{{category}}</button>
+        </mat-list-option>
+    </mat-selection-list>
+</mat-expansion-panel>
+<div class="p-6">
+    <h3>Price range</h3>
+    <div class="flex justify-between">
+        <input [(ngModel)]="minValue" class="w-14" type="number">
+        <input [(ngModel)]="maxValue" class="w-14" type="number">
+    </div>
+    <mat-slider width="300" min="0" max="1000" step="5">
+        <input [(ngModel)]="minValue" matSliderStartThumb  width="300">
+        <input [(ngModel)]="maxValue" matSliderEndThumb  width="300">
+    </mat-slider>
+</div>
+<button style="display: block" (click)="updateRequest()"
+class='mx-auto' mat-stroked-button color="primary">Ok</button>

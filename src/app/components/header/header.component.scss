@@ -1,0 +1,17 @@
+.toolbar{
+    color: white;
+
+    &__org{
+        justify-content: space-between;
+    }
+
+    &__elems-wrap{
+        display: flex;
+        align-items: center;
+        gap: 30px;
+    }
+
+    &__cart-icon{
+        cursor: pointer;
+    }
+}

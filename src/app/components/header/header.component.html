@@ -1,0 +1,36 @@
+<mat-toolbar color="primary" class="text-white">
+    <div class="container justify-between">
+        <a routerLink="">E-Shop</a>
+        <div class="flex items-center gap-10">
+            <a routerLink="" routerLinkActive="toolbar__active" 
+            [routerLinkActiveOptions]="{exact: true}">
+                Home
+            </a>
+            <button mat-icon-button [matMenuTriggerFor]="cart">
+                <mat-icon class="cursor-pointer" aria-hidden="false" 
+                aria-label="Cart" fontIcon="shopping_cart" matBadgeOverlap="false" 
+                matBadgeColor="accent" [matBadge]="1"></mat-icon>
+            </button>
+        </div>
+        <mat-menu xPosition="before" #cart class="top-2 left-0 right-0">
+            <div class="p-3 divide-y divide-solid">
+                <div class="flex justify-between p-3">
+                    1 item
+                    <a routerLink="cart" class="font-bold">View Cart</a>
+                </div>
+                <div class="flex justify-between p-2 gap-10">
+                    Keyboard
+                    <span class="font-bold">
+                        {{ 100 | currency}}
+                    </span>
+                </div>
+                <div class="p-2 flex  justify-between font-bold">
+                    Total: 
+                    <span>
+                        {{ 100 | currency}}
+                    </span>
+                </div>
+            </div>
+        </mat-menu>
+    </div>
+</mat-toolbar>

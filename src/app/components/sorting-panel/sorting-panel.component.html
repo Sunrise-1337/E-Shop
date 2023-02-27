@@ -1,0 +1,18 @@
+<mat-card style="flex-direction: row;" class="p-2 flex justify-around">
+    <button class="w-9xl text-left" mat-button [matMenuTriggerFor]="sortBy">Sort by {{sorting}}</button>
+    <mat-menu #sortBy="matMenu">
+        <button (click)="changeSorting('A-Z')" mat-menu-item>A-Z</button>
+        <button (click)="changeSorting('Z-A')" mat-menu-item>Z-A</button>
+        <button (click)="changeSorting('Price ↑')" mat-menu-item>Price ↑</button>
+        <button (click)="changeSorting('Price ↓')" mat-menu-item>Price ↓</button>
+        <button (click)="changeSorting('Rating ↑')" mat-menu-item>Rating ↑</button>
+        <button (click)="changeSorting('Rating ↓')" mat-menu-item>Rating ↓</button>
+    </mat-menu>
+    <button class="w-28 text-left" mat-button [matMenuTriggerFor]="showElems">Show {{displayEls}}</button>
+    <mat-menu #showElems="matMenu">
+        <button (click)="changeAmountEls(12)" mat-menu-item>12</button>
+        <button (click)="changeAmountEls(24)" mat-menu-item>24</button>
+        <button (click)="changeAmountEls(36)" mat-menu-item>36</button>
+        <button (click)="changeAmountEls(48)" mat-menu-item>48</button>
+    </mat-menu>
+</mat-card>
