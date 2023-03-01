@@ -9,3 +9,16 @@ p {
 .mdc-card .mat-mdc-table .mdc-data-table__header-row {
     height: 70px;
 }
+
+.mat-mdc-cell .mdc-button{
+    height: 20px;
+    width: 20px;
+    padding: 0;
+    min-width: 20px;
+}
+
+.quantity-cell{
+    width: 110px;
+    display: flex;
+    justify-content: space-around;
+}

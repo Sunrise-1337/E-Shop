@@ -29,9 +29,13 @@
             <ng-container matColumnDef="quantity">
                 <th class="align-middle" mat-header-cell *matHeaderCellDef>Quantity</th>
                 <td class="align-middle" mat-cell *matCellDef="let element">
-                    <button [disabled]="element.quantity === 1" (click)="decreaseAmount(element)">-</button>
-                    {{element.quantity}}
-                    <button (click)="increaseAmount(element)">+</button>
+                    <div class="quantity-cell">
+                        <button mat-stroked-button color="primary" 
+                        [disabled]="element.quantity === 1" (click)="decreaseAmount(element)">-</button>
+                        {{element.quantity}}
+                        <button mat-stroked-button color="primary" 
+                        (click)="increaseAmount(element)">+</button>
+                    </div>
                 </td>
                 <td class="align-middle font-bold text-l m-0"  mat-footer-cell *matFooterCellDef>{{cartData.amountItems}}</td>
             </ng-container>
