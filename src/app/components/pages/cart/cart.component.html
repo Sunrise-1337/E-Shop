@@ -1,0 +1,80 @@
+<div class="h-full " *ngIf="cartData$ | async as cartData">
+    <mat-card class="w-[80%] mx-auto" *ngIf="cartData.cartItems.length > 0; else noProducts">
+        <table mat-table [dataSource]="cartData.cartItems">
+
+            <ng-container matColumnDef="image">
+                <th class="align-middle" mat-header-cell *matHeaderCellDef></th>
+                <td mat-cell *matCellDef="let element">
+                    <img class="max-w-[200px] m-[20px]" [src]="element.image" [alt]="element.title">
+                </td>
+                <td class="align-middle" mat-footer-cell *matFooterCellDef></td>
+            </ng-container>
+
+            <ng-container matColumnDef="name">
+                <th class="align-middle" mat-header-cell *matHeaderCellDef>Product</th>
+                <td class="align-middle" mat-cell *matCellDef="let element">
+                    <p>{{element.title}}</p>
+                </td>
+                <td mat-footer-cell *matFooterCellDef></td>
+            </ng-container>
+
+            <ng-container matColumnDef="price">
+                <th class="align-middle" mat-header-cell *matHeaderCellDef>Price</th>
+                <td class="align-middle" mat-cell *matCellDef="let element">
+                    {{element.price | currency}}
+                </td>
+                <td mat-footer-cell *matFooterCellDef></td>
+            </ng-container>
+
+            <ng-container matColumnDef="quantity">
+                <th class="align-middle" mat-header-cell *matHeaderCellDef>Quantity</th>
+                <td class="align-middle" mat-cell *matCellDef="let element">
+                    <button [disabled]="element.quantity === 1" (click)="decreaseAmount(element)">-</button>
+                    {{element.quantity}}
+                    <button (click)="increaseAmount(element)">+</button>
+                </td>
+                <td class="align-middle font-bold text-l m-0"  mat-footer-cell *matFooterCellDef>{{cartData.amountItems}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="total">
+                <th class="font-bold text-l m-0 align-middle" mat-header-cell *matHeaderCellDef>Total</th>
+                <td class="align-middle" mat-cell *matCellDef="let element">
+                    {{element.quantity * element.price | currency}}
+                </td>
+                <td class="align-middle font-bold text-l m-0" mat-footer-cell *matFooterCellDef>{{cartData.totalPrice | currency}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="delete">
+                <th class="align-middle" mat-header-cell *matHeaderCellDef>
+                    <button (click)="clearCart()" mat-fab color="primary" aria-label="Example icon button with a delete icon">
+                        <mat-icon>delete</mat-icon>
+                    </button>
+                </th>
+                <td class="align-middle" mat-cell *matCellDef="let element">
+                    <div class="w-fit mx-auto">
+                        <button (click)="clearUnit(element)" mat-mini-fab color="warn" aria-label="Example icon button with a delete icon">
+                            <mat-icon>delete</mat-icon>
+                        </button>
+                    </div>
+                </td>
+                <td mat-footer-cell *matFooterCellDef></td>
+            </ng-container>
+
+            <tr class="font-bold" mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr class="font-bold" mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+            <tr [ngStyle]="{'border-top': '1px solid #e5e7eb'}" mat-footer-row *matFooterRowDef="displayedColumns"></tr>
+        </table>
+    </mat-card>
+</div>
+
+
+<ng-template #noProducts>
+    <mat-card class="flex justify-center items-center gap-12 text-4xl h-full">
+        <mat-card-header>You have no products in your cart</mat-card-header>
+        <a routerLink="">
+            <button mat-stroked-button color="primary">
+                Go shopping
+            </button>
+        </a>
+    </mat-card>
+</ng-template>

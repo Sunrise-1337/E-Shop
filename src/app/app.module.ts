@@ -22,15 +22,17 @@ import { MatListModule } from '@angular/material/list';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatCardModule } from '@angular/material/card';
-
+import { MatTableModule } from '@angular/material/table';
 
 import { HeaderComponent } from './components/header/header.component';
-import { HomeComponent } from './components/pages/Home/home/home.component';
+import { HomeComponent } from './components/pages/home/home.component';
 import { FilteringComponent } from './components/filtering/filtering/filtering.component'
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { ProductCardComponent } from './components/product-card/product-card.component';
 import { SortingPanelComponent } from './components/sorting-panel/sorting-panel.component';
+import { reducers } from './reducers';
+import { CartComponent } from './components/pages/cart/cart.component';
 
 @NgModule({
   declarations: [
@@ -39,14 +41,15 @@ import { SortingPanelComponent } from './components/sorting-panel/sorting-panel.
     HomeComponent,
     FilteringComponent,
     ProductCardComponent,
-    SortingPanelComponent
+    SortingPanelComponent,
+    CartComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
-    StoreModule.forRoot({}, {}),
+    StoreModule.forRoot(reducers, {}),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() }),
     StoreRouterConnectingModule.forRoot(),
     BrowserAnimationsModule,
@@ -60,6 +63,7 @@ import { SortingPanelComponent } from './components/sorting-panel/sorting-panel.
     MatSidenavModule,
     MatSliderModule,
     MatCardModule,
+    MatTableModule,
     
   ],
   providers: [],

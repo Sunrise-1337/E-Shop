@@ -1,1 +1,20 @@
-<p>product-card works!</p>
+<mat-card class="card p-6">
+    <div class="card__image">
+        <img class="card__image" mat-card-image [src]="item.image">
+    </div>
+    <mat-card-header class="card__title">{{item.title}}</mat-card-header>
+    <p class="card__rating">
+        <mat-icon color="accent" class="cursor-pointer" aria-hidden="false" 
+        aria-label="Add to cart" fontIcon="star"></mat-icon>
+        {{item.rating.rate}} by {{item.rating.count}}
+    </p>
+    <mat-card-actions class="card__panel">
+        <p class="card__price">
+            {{item.price | currency}}
+        </p>
+        <button (click)="addToCart()" mat-icon-button>
+            <mat-icon class="cursor-pointer" aria-hidden="false" 
+            aria-label="Add to cart" fontIcon="add_shopping_cart"></mat-icon>
+        </button>
+    </mat-card-actions>
+</mat-card>

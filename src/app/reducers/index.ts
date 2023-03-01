@@ -1,10 +1,10 @@
-import { ActionReducer, ActionReducerMap } from "@ngrx/store";
+import { ActionReducerMap } from "@ngrx/store";
 import { cartNode, cartReducer, CartState } from "./cart/cart.reducers";
 
-export interface State{
+export interface thisState{
   [cartNode]: CartState
 }
 
-export const reducers: ActionReducerMap<State> = {
-  [cartNode]: cartReducer as ActionReducer<CartState>
+export const reducers: ActionReducerMap<thisState> = {
+  [cartNode]: cartReducer
 }

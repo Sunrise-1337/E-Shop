@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { filter, map, Observable } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { map, Observable } from 'rxjs';
 import { FilterValues } from 'src/app/interfaces/filterValues';
 import { Product } from 'src/app/interfaces/product';
+import { CartAddAction } from 'src/app/reducers/cart/cart.actions';
 import { ApiService } from 'src/app/services/api.service';
 
 @Component({
@@ -10,7 +12,7 @@ import { ApiService } from 'src/app/services/api.service';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-  products$!: Observable<Product[] | null> ;
+  products$!: Observable<Product[]> ;
   sorting: string = 'A-Z';
   amount: number = 12;
   currentFilters: FilterValues = {
@@ -19,10 +21,14 @@ export class HomeComponent implements OnInit {
     category: '',
   };
 
-  constructor(private api: ApiService){}
+  constructor(private api: ApiService, private store: Store){}
 
   ngOnInit(): void {
     this.updateProducts(this.currentFilters)
+  }
+
+  addProductToCart(prod: Product): void {
+    this.store.dispatch(CartAddAction({...prod, quantity: 1}))
   }
 
   changeSorting(newSorting: string): void {
@@ -56,7 +62,7 @@ export class HomeComponent implements OnInit {
               case 'Rating ↓':
                 return filteredProducts.sort((a, b) => b.rating.rate - a.rating.rate);
               default:
-                return null;
+                return filteredProducts;
             }
           })
         )

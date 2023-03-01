@@ -1,10 +1,9 @@
 import { createFeatureSelector, createSelector } from "@ngrx/store";
-import { CartItem } from "src/app/interfaces/cartItem";
-import { cartNode, CartState } from "./cart.reducers";
+import { CartData, cartNode, CartState } from "./cart.reducers";
 
 export const selectCartFeature = createFeatureSelector<CartState>(cartNode)
 
-export const selectCart = createSelector(
+export const selectCartData = createSelector(
   selectCartFeature, 
-  (state: CartState): CartItem[] => state.items
+  (state: CartState): CartData => state.cartData
 )

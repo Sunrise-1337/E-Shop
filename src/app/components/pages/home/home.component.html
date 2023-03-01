@@ -1,0 +1,12 @@
+<mat-drawer-container [autosize]="true" class="min-h-full max-w-7xl mx-auto border-x">
+    <mat-drawer mode="side" opened>  
+        <app-filtering (sendInfo)="updateProducts($event)"></app-filtering>
+    </mat-drawer>
+    <mat-drawer-content class="p-6">
+        <app-sorting-panel (updateAmount)="changeAmount($event)" (updateSorting)="changeSorting($event)"></app-sorting-panel>
+        <div *ngIf="products$ | async as products" class="home__card-wrapper mt-6">
+            <app-product-card class="home__card" *ngFor="let product of products" 
+            [item]="product" (toAddProduct)="addProductToCart($event)"></app-product-card>
+        </div>
+    </mat-drawer-content>
+</mat-drawer-container> 
