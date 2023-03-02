@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { map, Observable } from 'rxjs';
+import { first, map, Observable } from 'rxjs';
 import { FilterValues } from 'src/app/interfaces/filterValues';
 import { Product } from 'src/app/interfaces/product';
-import { CartAddAction } from 'src/app/reducers/cart/cart.actions';
+import { CartAddAction } from 'src/app/store/cart/cart.actions';
 import { ApiService } from 'src/app/services/api.service';
 
 @Component({
@@ -12,9 +12,10 @@ import { ApiService } from 'src/app/services/api.service';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-  products$!: Observable<Product[]> ;
+  rawProducts$!: Observable<Product[]>;
+  displayProducts$!: Observable<Product[]>;
   sorting: string = 'A-Z';
-  amount: number = 12;
+  amount: number = 10;
   currentFilters: FilterValues = {
     minValue: 0,
     maxValue: 1000,
@@ -24,48 +25,83 @@ export class HomeComponent implements OnInit {
   constructor(private api: ApiService, private store: Store){}
 
   ngOnInit(): void {
-    this.updateProducts(this.currentFilters)
+    this.toUpdateProducts(this.currentFilters)
   }
 
-  addProductToCart(prod: Product): void {
+  toAddProductToCart(prod: Product): void {
     this.store.dispatch(CartAddAction({...prod, quantity: 1}))
   }
 
-  changeSorting(newSorting: string): void {
+  onSortingChange(newSorting: string): void {
     this.sorting = newSorting
-    this.updateProducts(this.currentFilters)
+    this.toUpdateDisplay()
   }
 
-  changeAmount(newAmount: number): void {
+  onAmountChange(newAmount: number): void {
+    if (newAmount > this.amount) {
+      this.toUpdateProducts(this.currentFilters, newAmount)
+    } else {
+      this.displayProducts$ = 
+        this.toUpdateDisplay()
+          .pipe(
+            map((el: Product[]) => {
+              let toDelete = el.length-newAmount
+              el.splice(toDelete - 1, toDelete)
+              return el
+            })
+          )
+    }
+
     this.amount = newAmount
-    this.updateProducts(this.currentFilters)
   }
 
-  updateProducts(filters: FilterValues = this.currentFilters, amount: number = this.amount): void {
+  toFilter(array: Product[]){
+    return array.filter(el => this.currentFilters.minValue <= el.price && el.price <= this.currentFilters.maxValue)
+  }
+
+  toSort(array: Product[]){
+    switch (this.sorting) {
+      case 'A-Z':
+        return array.sort((a, b) => a.title.localeCompare(b.title));
+      case 'Z-A':
+        return array.sort((a, b) => b.title.localeCompare(a.title));
+      case 'Price ↑':
+        return array.sort((a, b) => a.price - b.price);
+      case 'Price ↓':
+        return array.sort((a, b) => b.price - a.price);
+      case 'Rating ↑':
+        return array.sort((a, b) => a.rating.rate - b.rating.rate);
+      case 'Rating ↓':
+        return array.sort((a, b) => b.rating.rate - a.rating.rate);
+      default:
+        return array;
+    }
+  }
+
+  onFiltersUpdate(filters: FilterValues) {
+    if (filters.category == this.currentFilters.category){
+      this.currentFilters = filters
+      this.toUpdateDisplay()
+    } else {
+      this.toUpdateProducts(filters)
+    }
+  }
+
+  toUpdateDisplay() {
+    return this.displayProducts$ = this.rawProducts$.pipe(
+      map(el => {
+        return this.toSort(this.toFilter(el))
+      })
+    )
+  }
+
+  toUpdateProducts(filters: FilterValues = this.currentFilters, amount: number = this.amount): void {
     this.currentFilters = filters
-    this.products$ = 
+    this.rawProducts$ = 
       this.api.getProducts(amount, filters?.category)
         .pipe(
-          map((array: Product[]) => {
-            let filteredProducts = array.filter(el => filters.minValue <= el.price && el.price <= filters.maxValue)
-            switch (this.sorting) {
-              case 'A-Z':
-                return filteredProducts.sort((a, b) => a.title.localeCompare(b.title));
-              case 'Z-A':
-                return filteredProducts.sort((a, b) => b.title.localeCompare(a.title));
-              case 'Price ↑':
-                return filteredProducts.sort((a, b) => a.price - b.price);
-              case 'Price ↓':
-                return filteredProducts.sort((a, b) => b.price - a.price);
-              case 'Rating ↑':
-                return filteredProducts.sort((a, b) => a.rating.rate - b.rating.rate);
-              case 'Rating ↓':
-                return filteredProducts.sort((a, b) => b.rating.rate - a.rating.rate);
-              default:
-                return filteredProducts;
-            }
-          })
+          first()
         )
+    this.toUpdateDisplay()
   }
 }
- 

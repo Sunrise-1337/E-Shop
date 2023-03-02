@@ -1,6 +1,8 @@
 import { NgModule, isDevMode } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { HttpClientModule } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
 
 
 import { AppRoutingModule } from './app-routing.module';
@@ -10,6 +12,9 @@ import { AppComponent } from './app.component';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { StoreRouterConnectingModule } from '@ngrx/router-store';
+
+
+import { reducers } from './store';
 
 
 import { MatToolbarModule } from '@angular/material/toolbar'
@@ -27,11 +32,8 @@ import { MatTableModule } from '@angular/material/table';
 import { HeaderComponent } from './components/header/header.component';
 import { HomeComponent } from './components/pages/home/home.component';
 import { FilteringComponent } from './components/filtering/filtering/filtering.component'
-import { HttpClientModule } from '@angular/common/http';
-import { FormsModule } from '@angular/forms';
 import { ProductCardComponent } from './components/product-card/product-card.component';
 import { SortingPanelComponent } from './components/sorting-panel/sorting-panel.component';
-import { reducers } from './reducers';
 import { CartComponent } from './components/pages/cart/cart.component';
 
 @NgModule({

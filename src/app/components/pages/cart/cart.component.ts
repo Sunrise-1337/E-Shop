@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { CartItem } from 'src/app/interfaces/cartItem';
-import { thisState } from 'src/app/reducers';
-import { CartAddAction, CartClearAction, RemoveOneFromCart, RemoveUnitFromCart } from 'src/app/reducers/cart/cart.actions';
-import { selectCartData } from 'src/app/reducers/cart/cart.selectors';
+import { thisState } from 'src/app/store';
+import { CartAddAction, CartClearAction, RemoveOneFromCart, RemoveUnitFromCart } from 'src/app/store/cart/cart.actions';
+import { selectCartData } from 'src/app/store/cart/cart.selectors';
 
 @Component({
   selector: 'app-cart',

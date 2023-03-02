@@ -8,7 +8,7 @@ import { Component, EventEmitter, Output } from '@angular/core';
 export class SortingPanelComponent {
   @Output() updateSorting: EventEmitter<string> = new EventEmitter();
   @Output() updateAmount: EventEmitter<number> = new EventEmitter();
-  displayEls: number =  12;
+  displayEls: number =  10;
   sorting: string = 'A-Z'
 
   changeSorting(name: string): void {
