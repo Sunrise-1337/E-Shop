@@ -35,6 +35,8 @@ import { FilteringComponent } from './components/filtering/filtering/filtering.c
 import { ProductCardComponent } from './components/product-card/product-card.component';
 import { SortingPanelComponent } from './components/sorting-panel/sorting-panel.component';
 import { CartComponent } from './components/pages/cart/cart.component';
+import { EffectsModule } from '@ngrx/effects';
+import { ProductsEffects } from './store/products/products.effects';
 
 @NgModule({
   declarations: [
@@ -54,6 +56,7 @@ import { CartComponent } from './components/pages/cart/cart.component';
     StoreModule.forRoot(reducers, {}),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() }),
     StoreRouterConnectingModule.forRoot(),
+    EffectsModule.forRoot([ProductsEffects]),
     BrowserAnimationsModule,
     MatToolbarModule, 
     MatIconModule,
